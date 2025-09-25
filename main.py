@@ -2,7 +2,7 @@ from fetch_mails import authenticate_gmail, fetch_emails
 from db_utils import init_db, store_emails
 from rules_processing import load_rules, evaluate, apply
 
-MAX_EMAILS = 20 # fetch limit
+MAX_EMAILS = 100 # fetch limit
 
 if __name__ == '__main__':
     # 1. Authenticate and fetch emails

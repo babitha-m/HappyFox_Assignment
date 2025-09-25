@@ -3,7 +3,7 @@ A Python script that fetches emails from Gmail via OAuth using Gmail API ; store
 
 ---
 
-##Features
+## Features
 
 - **Fetch Emails**: Retrieve emails from Gmail inbox using Gmail API (OAuth authentication).  
 - **Database Storage**: Store email details such as sender, subject, body, and date in MySQL.  
@@ -25,6 +25,7 @@ A Python script that fetches emails from Gmail via OAuth using Gmail API ; store
   - `google-auth-oauthlib`
   - `html2text`
   - `mysql-connector-python`
+- Pytest for testing
 
 ---
 
@@ -40,14 +41,31 @@ A Python script that fetches emails from Gmail via OAuth using Gmail API ; store
     pip install -r requirements.txt
 
 3. **Set up Gmail API credentials**
-Create a project in Google Cloud Console
+   - Create a project in Google Cloud Console
+   - Enable Gmail API and follow the instructions to get OAuth credentials
+   - Download credentials.json and place it in the project root
 
-Enable Gmail API
+4. **Configure Database**
+   - Ensure MySQL server is running
+   - Update database connection in db_utils.py if needed
+   - Replace the name and password in db_utils.py with your mysql credentials
 
-Download credentials.json and place it in the project root
+## Usage
+1. **Run the main script**
+   This will fetch emails, store them in the database, and apply rules:
+   ```bash
+   python main.py
 
-Configure Database
+2. **Customize Rules**
+   - Open rules.json
+   - Add or modify rules based on your email processing needs
+      - Each rule has predicate (All / Any), conditions (field, predicate, value), and actions (mark_as_read, mark_as_unread, move_to:<Label>)
 
-Ensure MySQL server is running
+3. **View Emails in Database**
+    - Connect to your MySQL database and query the email_inbox table:
+    ```bash
+     SELECT * FROM email_inbox;
 
-Update database connection in db_utils.py if needed
+
+4. **Modify Database or Script (Optional)**
+    - Adjust MAX_EMAILS in main.py to fetch more emails.

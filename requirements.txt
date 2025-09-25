@@ -1,5 +1,7 @@
-google-api-python-client
-google-auth-httplib2
-google-auth-oauthlib
-mysql-connector-python
-html2text
+google-api-python-client==2.97.0
+google-auth==2.23.0
+google-auth-oauthlib==1.2.0
+html2text==2020.1.16
+mysql-connector-python==8.1.0
+pytest==7.4.2
+python-dotenv==1.0.0

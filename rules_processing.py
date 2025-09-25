@@ -34,46 +34,55 @@ def sanitize_label_name(name):
 
 def apply(service, email_id, actions):
     """Apply actions to the email via Gmail API."""
+     # Fetch current labels on this email
+    msg = service.users().messages().get(userId="me", id=email_id, format="metadata").execute()
+    current_labels = set(msg.get("labelIds", []))
+
+    # Fetch all existing labels once
+    all_labels = service.users().labels().list(userId="me").execute().get("labels", [])
+    label_map = {l["name"]: l["id"] for l in all_labels}
+
     for action in actions:
         action_lower = action.lower()
         try:
             if action_lower == "mark_as_read":
-                service.users().messages().modify(
-                    userId="me",
-                    id=email_id,
-                    body={"removeLabelIds": ["UNREAD"]}
-                ).execute()
+                if "UNREAD" in current_labels:
+                    service.users().messages().modify(
+                        userId="me",
+                        id=email_id,
+                        body={"removeLabelIds": ["UNREAD"]}
+                    ).execute()
+                    current_labels.discard("UNREAD")
             elif action_lower == "mark_as_unread":
-                service.users().messages().modify(
-                    userId="me",
-                    id=email_id,
-                    body={"addLabelIds": ["UNREAD"]}
-                ).execute()
+                if "UNREAD" not in current_labels:
+                    service.users().messages().modify(
+                        userId="me",
+                        id=email_id,
+                        body={"addLabelIds": ["UNREAD"]}
+                    ).execute()
+                    current_labels.add("UNREAD")
             elif action_lower.startswith("move_to:"):
-                label = action.split(":", 1)[1].strip()
-                label = sanitize_label_name(label)
-                if not label:
-                    print(f"[Skipped] Invalid label for email {email_id}")
+                label_name = action.split(":", 1)[1].strip()
+                if not label_name:
+                    print(f"Skipping invalid label for email {email_id}")
                     continue
 
-                # Get existing labels
-                labels = service.users().labels().list(userId="me").execute().get("labels", [])
-                label_id = next((l["id"] for l in labels if l["name"] == label), None)
-
-                # Create label if it doesn't exist
+                # Get label ID, create if missing
+                label_id = label_map.get(label_name)
                 if not label_id:
                     label_id = service.users().labels().create(
                         userId="me",
-                        body={"name": label}
+                        body={"name": label_name}
                     ).execute()["id"]
+                    label_map[label_name] = label_id
 
-                # Apply label
-                service.users().messages().modify(
-                    userId="me",
-                    id=email_id,
-                    body={"addLabelIds": [label_id]}
-                ).execute()
-                print(f"[Applied] Label '{label}' to email {email_id}")
+                if label_id not in current_labels:
+                    service.users().messages().modify(
+                        userId="me",
+                        id=email_id,
+                        body={"addLabelIds": [label_id]}
+                    ).execute()
+                    current_labels.add(label_id)
 
         except Exception as e:
-            print(f"[Error] Applying action '{action}' to {email_id}: {e}")
+            print(f"Error applying action '{action}' to {email_id}: {e}")

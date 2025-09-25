@@ -29,6 +29,19 @@ A Python script that fetches emails from Gmail via OAuth using Gmail API ; store
 
 ---
 
+## File Structure
+
+├── .gitignore # Ignored files and folders
+├── requirements.txt # Python dependencies
+├── README.md # Project documentation
+├── credentials.json # Gmail API credentials (ignored in git)
+├── token.json # OAuth token (auto-generated, ignored in git)
+├── rules.json # Predefined email processing rules
+├── main.py # Entry point: fetch, store, process emails
+├── fetch_mails.py # Gmail API authentication & email fetching
+├── db_utils.py # MySQL database initialization & storage
+└── rules_processing.py # Rule evaluation & Gmail actions
+
 ## Setup & Installation
 
 1. **Clone the repository**  

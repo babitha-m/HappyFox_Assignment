@@ -2,5 +2,10 @@ __pycache__/
 *.pyc
 credentials.json
 token.json
-db_utils.py
+build/
+*.db
+*.sql
+*.log
+*.cache
+
 main.py

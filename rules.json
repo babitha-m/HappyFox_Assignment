@@ -1,0 +1,59 @@
+[
+  {
+    "predicate": "Any",
+    "rules": [
+      {
+        "field": "Subject",
+        "predicate": "contains",
+        "value": "happyfox"
+      },
+      {
+        "field": "Subject",
+        "predicate": "contains",
+        "value": "wellfound"
+      },
+      {
+        "field": "From",
+        "predicate": "contains",
+        "value": "linkedin"
+      }
+    ],
+    "actions": [
+      "mark_as_read",
+      "move_to:Placements"
+    ]
+  },
+  {
+    "predicate": "All",
+    "rules": [
+      {
+        "field": "From",
+        "predicate": "contains",
+        "value": "pesu.edu"
+      },
+      {
+        "field": "Received",
+        "predicate": "less_than",
+        "value": 30,
+        "unit": "days"
+      }
+    ],
+    "actions": [
+      "mark_as_read",
+      "move_to:Placements"
+    ]
+  },
+  {
+    "predicate": "Any",
+    "rules": [
+      {
+        "field": "Subject",
+        "predicate": "contains",
+        "value": "interview"
+      }
+    ],
+    "actions": [
+      "mark_as_unread"
+    ]
+  }
+]

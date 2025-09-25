@@ -6,7 +6,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from google.auth.transport.requests import Request
-import html2text  # pip install html2text
+import html2text  
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.modify']
 

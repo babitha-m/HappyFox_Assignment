@@ -1,11 +1,11 @@
 import mysql.connector
 
-def init_db():
+def init_db(db_name="gmail_db"):
     connection = mysql.connector.connect(
         host= "localhost",
         user="root",
         password="Password",
-        database="gmail_db"
+        database=db_name
     )
     cursor=connection.cursor()
     cursor.execute("""

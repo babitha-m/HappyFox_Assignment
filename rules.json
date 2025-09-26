@@ -40,7 +40,7 @@
     ],
     "actions": [
       "mark_as_read",
-      "move_to:Placements"
+      "move_to:IMPORTANT"
     ]
   },
   {

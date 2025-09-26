@@ -32,6 +32,11 @@ A Python script that fetches emails from Gmail via OAuth using Gmail API ; store
 ## File Structure
 
 ```
+├── tests
+│   ├── test_db_utils.py   # Unit tests for db_utils.py
+│   ├── test_fetch_mails.py # Unit tests for fetch_mails.py
+│   ├── test_rules_processing.py # Unit tests for rules_processing.py
+│   └── test_integration.py # Integration tests for end-to-end flow
 ├── .gitignore # Ignored files and folders
 ├── requirements.txt # Python dependencies
 ├── README.md # Project documentation
@@ -42,6 +47,7 @@ A Python script that fetches emails from Gmail via OAuth using Gmail API ; store
 ├── fetch_mails.py # Gmail API authentication & email fetching
 ├── db_utils.py # MySQL database initialization & storage
 └── rules_processing.py # Rule evaluation & Gmail actions
+├── display_db.py  # Helper to get a glimpse of db
 ```
 
 ## Setup & Installation
@@ -84,3 +90,29 @@ A Python script that fetches emails from Gmail via OAuth using Gmail API ; store
 
 4. **Modify Database or Script (Optional)**
     - Adjust MAX_EMAILS in main.py to fetch more emails.
+
+## Testing
+
+This project includes **unit tests** for individual modules (`db_utils.py`, `fetch_mails.py`, `rules_processing.py`) and **integration test** to verify the main workflow.
+
+### Running Unit & Integration Tests
+
+# Make sure MySQL server is running before running integration test.
+
+1. **Unit Tests: To test individual modules**
+```bash
+py -m unittest tests.test_db_utils
+py -m unittest tests.test_fetch_mails
+py -m unittest tests.test_rules_processing
+```
+2. **Integration Test: End-to-end flow with MySQL (mocked Gmail service)**
+```bash
+py -m unittest tests.test_integration
+```
+3. **Using `pytest`: To run all together**:
+
+```bash
+pip install pytest
+pytest
+
+
